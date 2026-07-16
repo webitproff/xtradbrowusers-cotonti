@@ -7,6 +7,11 @@
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3+-blueviolet.svg)](https://getbootstrap.com/)
 [![License](https://img.shields.io/badge/license-BSD-blue.svg)](https://github.com/webitproff/xtradbrowusers-cotonti/blob/main/LICENSE)
 
+
+<img width="1672" height="941" alt="xtradbrowusers-cotonti-webitproff" src="https://github.com/user-attachments/assets/8a76ea6b-7cbc-48e7-aff1-124d25d6a587" />
+
+
+
 ## Общая информация о плагине
 
 - **Код:** xtradbrowusers
