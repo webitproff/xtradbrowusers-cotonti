@@ -4,7 +4,7 @@
 Code=xtradbrowusers
 Name=Custom Extrafields Users
 Description=Custom Extrafields for Users module stored in own table. Дополнительные поля пользователей в собственной таблице.
-Version=1.0.0
+Version=1.0.1
 Date=Jul 16, 2026
 Author=webitproff
 Copyright=Copyright (c) 2026 webitproff
