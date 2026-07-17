@@ -11,9 +11,9 @@
  * Удаляет соответствующую запись в таблице cot_xtradbrowusers, а также файлы, загруженные
  * через экстраполя.
  *
- * Date: Jul 16, 2026
+ * Date: Jul 17, 2026
  * @package xtradbrowusers
- * @version 1.0.0
+ * @version 1.0.1
  * @author webitproff
  * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff/xtradbrowusers-cotonti
  * @license BSD
@@ -34,5 +34,6 @@ if (isset($id) && $id > 0) {
             }
         }
     }
-    Cot::$db->delete(Cot::$db->xtradbrowusers, "user_id = ?", [$id]);
+    // Удаляем запись по первичному ключу "id" (каскадно удалит переводы из _i18n)
+    Cot::$db->delete(Cot::$db->xtradbrowusers, "id = ?", [$id]);
 }
