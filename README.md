@@ -1,13 +1,19 @@
 # Extrafields Users Custom — плагин дополнительных полей для модуля Users
 
-[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/webitproff/xtradbrowusers-cotonti/releases)
+[![Version](https://img.shields.io/badge/version-1.1.1-green.svg)](https://github.com/webitproff/xtradbrowusers-cotonti/releases)
 [![Cotonti](https://img.shields.io/badge/Cotonti-v1.0+-orange.svg)](https://github.com/Cotonti/Cotonti)
 [![PHP](https://img.shields.io/badge/PHP-8.4+-purple.svg)](https://www.php.net/releases/8_4_0.php)
 [![MySQL](https://img.shields.io/badge/MySQL-8.4+-blue.svg)](https://www.mysql.com/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3+-blueviolet.svg)](https://getbootstrap.com/)
 [![License](https://img.shields.io/badge/license-BSD-blue.svg)](https://github.com/webitproff/xtradbrowusers-cotonti/blob/main/LICENSE)
 
+## с версии 1.1.1 Мультиязычные экстраполя пользователей в Cotonti
 
+<img width="1535" height="1024" alt="xtradbrowusers_i18n" src="https://github.com/user-attachments/assets/3c9584e7-3331-42a8-8a3f-355c7470d703" />
+
+___
+>Всё что касается мультиязычности плагина **[смотрите в этой статье](https://abuyfile.com/ru/usersblog/multiyazychnye-dopolnitelnye-polya-v-cotonti)**
+___
 <img width="1672" height="941" alt="xtradbrowusers-cotonti-webitproff" src="https://github.com/user-attachments/assets/8a76ea6b-7cbc-48e7-aff1-124d25d6a587" />
 
 
@@ -16,8 +22,8 @@
 
 - **Код:** xtradbrowusers
 - **Назначение:** добавляет дополнительные поля для модуля [**Users**](https://github.com/Cotonti/Cotonti) версии 1.4.14+ в собственную таблицу базы данных
-- **Версия:** 1.0.0
-- **Дата:** 16 июля 2026
+- **Версия:** 1.1.1
+- **Дата:** 18 июля 2026
 - **Автор:** webitproff
 - **Копирайт:** © 2026 webitproff
 - **Зависимости:** Модуль **Users** (входит в состав Cotonti CMF)
