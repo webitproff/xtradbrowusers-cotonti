@@ -1,13 +1,16 @@
 <?php
 /**
- * xtradbrowusers.install.php – Демонстрационные экстраполя при первичной установке
+ * Filename: xtradbrowusers.install.php – Демонстрационные экстраполя при первичной установке
  *
  * Создаёт для таблицы cot_xtradbrowusers полный комплект демо-полей всех типов,
  * поддерживаемых Cotonti Extrafields. Каждое поле сразу готово к работе, а
- * в админке можно посмотреть живые примеры оформления.
+ * в админке можно посмотреть живые примеры оформления экстраполей.
  *
+ * Custom Extrafields Users i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ *
+ * Date: Jul 18, 2026
  * @package xtradbrowusers
- * @version 1.0.0
+ * @version 1.1.1
  * @author webitproff
  * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff/xtradbrowusers-cotonti
  * @license BSD
@@ -87,15 +90,15 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 5. Выпадающий список (select) — Отдел
+// 5. Выпадающий список (select) — Отдел (варианты на латинице)
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
     'department',
     'select',
     '<select class="form-select" name="{$name}">{$options}</select>',
-    'Не указан,IT,Маркетинг,Продажи,Поддержка',
-    'Не указан',
+    'not_specified,it,marketing,sales,support',
+    'not_specified',
     0,
     'HTML',
     'Отдел'
@@ -121,22 +124,22 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 7. Выпадающий список (select) — Уровень квалификации
+// 7. Выпадающий список (select) — Уровень квалификации (варианты на латинице)
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
     'skill_level',
     'select',
     '<select class="form-select" name="{$name}">{$options}</select>',
-    'Junior,Middle,Senior,Lead',
-    'Junior',
+    'junior,middle,senior,lead',
+    'junior',
     false,
     'HTML',
     'Уровень квалификации'
 );
 
 // ====================================================================
-// 8. Радиокнопки (radio) — Наличие автомобиля
+// 8. Радиокнопки (radio) — Наличие автомобиля (варианты оставлены Yes/No)
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
@@ -146,8 +149,8 @@ cot_extrafield_add(
        <input class="form-check-input" type="radio" name="{$name}" value="{$value}" {$checked} />
        <label class="form-check-label">{$title}</label>
      </div>',
-    'Yes,No',
-    'No',
+    'yes,no',
+    'no',
     false,
     'HTML',
     'Наличие автомобиля'
@@ -242,7 +245,7 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 13. Список с множественным выбором (checklistbox) — Интересы
+// 13. Список с множественным выбором (checklistbox) — Интересы (варианты на латинице)
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
@@ -252,23 +255,23 @@ cot_extrafield_add(
        <input class="form-check-input" type="checkbox" name="{$name}" value="{$value}" {$checked} />
        <label class="form-check-label">{$title}</label>
      </div>',
-    'Спорт,Музыка,IT,Путешествия',
-    'IT',
+    'sport,music,it,travel',
+    'it',
     false,
     'HTML',
     'Интересы (checklistbox)'
 );
 
 // ====================================================================
-// 14. Выпадающий список (select) — График работы
+// 14. Выпадающий список (select) — График работы (варианты на латинице)
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
     'work_schedule',
     'select',
     '<select class="form-select" name="{$name}">{$options}</select>',
-    'Полный день,Сменный,Удалёнка,Гибкий',
-    'Полный день',
+    'full_time,shift,remote,flexible',
+    'full_time',
     false,
     'HTML',
     'График работы'
