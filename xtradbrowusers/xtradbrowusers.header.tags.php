@@ -6,13 +6,20 @@
 ==================== */
 
 /**
- * Добавление тегов XTRA в header.tpl для страниц профиля/редактирования пользователя
+ * Файл plugins/xtradbrowusers/xtradbrowusers.header.tags.php - Добавление тегов XTRA в header.tpl
  * Хук header.tags. Присваивает теги {USERS_HEADER_XTRA_XXXXX} и {USERS_HEADER_XTRA_XXXXX_TITLE}
  * для использования в <title>, мета-описании и т.д. на страницах, где определён $urr.
  *
- * Date: Jul 16, 2026
+ * С версии 1.1.1 добавлена поддержка мультиязычности:
+ *  - для типов без встроенной локализации (input, textarea, double, inputint и т.д.)
+ *    значение подменяется переводом из xtradbrowusers_i18n, если он существует для текущего языка.
+ *  - для select, radio, checklistbox по‑прежнему используется языковой массив $L.
+ *
+ * Custom Extrafields Users i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ *
+ * Date: Jul 18, 2026
  * @package xtradbrowusers
- * @version 1.0.0
+ * @version 1.1.1
  * @author webitproff
  * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff/xtradbrowusers-cotonti
  * @license BSD
@@ -32,18 +39,31 @@ if (!empty($urr['user_id'])) {
             if (file_exists($country_lang)) {
                 include $country_lang;
             }
+
+            // Типы, для которых встроенная локализация уже работает через $L
+            $builtInI18nTypes = ['select', 'radio', 'checklistbox', 'checkbox'];
+
             foreach ($extrafields as $exfld) {
                 $tag = mb_strtoupper($exfld['field_name']);
                 $value = $xtra_data[$exfld['field_name']] ?? null;
 
+                // Подмена значения на перевод, если мультиязычность включена и тип поля не
+                // поддерживает собственную языковую локализацию
+                $displayValue = $value;
+                if (!empty(Cot::$cfg['plugin']['xtradbrowusers']['xtradbrowusers_i18n_use'])
+                    && !in_array($exfld['field_type'], $builtInI18nTypes)) {
+                    $displayValue = xtradbrowusers_i18n_get_value($urr['user_id'], $exfld['field_name'], $value);
+                }
+
                 $t->assign([
-                    'USERS_HEADER_XTRA_' . $tag              => cot_build_extrafields_data('xtra', $exfld, $value),
+                    'USERS_HEADER_XTRA_' . $tag              => cot_build_extrafields_data('xtra', $exfld, $displayValue),
                     'USERS_HEADER_XTRA_' . $tag . '_TITLE'   => cot_extrafield_title($exfld, 'xtra_'),
-                    'USERS_HEADER_XTRA_' . $tag . '_VALUE'   => $value,
+                    'USERS_HEADER_XTRA_' . $tag . '_VALUE'   => $displayValue,
                 ]);
 
-                // Название страны, если поле — country
+                // Название страны, если поле — country (используем оригинальный код страны)
                 if ($exfld['field_type'] === 'country') {
+                    // $value содержит код страны (ua, us), а не переведённое название
                     $countryName = isset($cot_countries[$value]) ? $cot_countries[$value] : $value;
                     $t->assign('USERS_HEADER_XTRA_' . $tag . '_NAME', $countryName);
                 }
