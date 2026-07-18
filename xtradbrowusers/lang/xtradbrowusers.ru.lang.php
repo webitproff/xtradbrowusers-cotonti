@@ -29,11 +29,10 @@ defined('COT_CODE') or die('Wrong URL.');
 // Переменная $db_x, определённая в datas/config.php и доступная через global, — это единственный корректный и документированный способ. 
 // Поэтому выражение с $db_x является правильным и единственно верным для данной ситуации.
 
-
-global $db_xtradbrowusers;
+global $db_x;
 
 $main_url = rtrim(Cot::$cfg['mainurl'], '/');
-$url = $main_url . '/' . cot_url('admin', 'm=extrafields&n=' . $db_xtradbrowusers, '', true);
+$url = $main_url . '/' . cot_url('admin', 'm=extrafields&n=' . $db_x . 'xtradbrowmarket', '', true);
 
 $L['xtradbrowusers'] = 'Custom Extrafields Users';
 /**
