@@ -6,15 +6,22 @@
 ==================== */
 
 /**
- * xtradbrowusers Plugin: Register custom table in Extrafields administration
+ * xtradbrowusers Plugin. Hooks - admin.extrafields.first, - Register custom table in Extrafields administration
+ * Filename: plugins/xtradbrowusers/xtradbrowusers.extrafields.php
  *
- * Date: Jul 16, 2026
+ *
+ * Custom Extrafields Users i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ *
+ * Date: Jul 18, 2026
  * @package xtradbrowusers
- * @version 1.0.0
+ * @version 1.1.1
  * @author webitproff
  * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff/xtradbrowusers-cotonti
  * @license BSD
  */
+ 
+ 
+ 
 defined('COT_CODE') or die('Wrong URL.');
 require_once cot_incfile('xtradbrowusers', 'plug');
 
