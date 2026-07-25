@@ -30,7 +30,7 @@ defined('COT_CODE') or die('Wrong URL.');
 global $db_x;
 
 $main_url = rtrim(Cot::$cfg['mainurl'], '/');
-$url = $main_url . '/' . cot_url('admin', 'm=extrafields&n=' . $db_x . 'xtradbrowmarket', '', true);
+$url = $main_url . '/' . cot_url('admin', 'm=extrafields&n=' . $db_x . 'xtradbrowusers', '', true);
 
 $L['xtradbrowusers'] = 'Custom Extrafields Users';
 /**
