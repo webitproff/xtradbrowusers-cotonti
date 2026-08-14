@@ -6,30 +6,47 @@ Hooks=usertags.main
 ==================== */
 
 /**
- * Файл plugins/xtradbrowusers/xtradbrowusers.usertags.php - Overrides user tags in cot_generate_usertags() function
- * Теги для использования в cot_generate_usertags() (списки, карточки, форум, etc.)
- * Хук usertags.main. Добавляет в общий массив тегов переменные $temp_array + XTRA + ИМЯПОЛЯ
- * например {USERS_ROW_XTRA_XXXXX} и {USERS_ROW_XTRA_XXXXX_TITLE}
+ * Filename: xtradbrowusers.usertags.php – Overrides user tags in cot_generate_usertags() function
  *
- * С версии 1.1.1 добавлена поддержка мультиязычности:
- *  - для типов без встроенной локализации (input, textarea, double, inputint и т.д.)
- *    значение подменяется переводом из xtradbrowusers_i18n, если он существует для текущего языка.
- *  - для select, radio, checklistbox по‑прежнему используется языковой массив $L.
+ * Purpose:   Подключается к хуку `usertags.main`, который вызывается внутри функции
+ *            cot_generate_usertags() (system/functions.php). Добавляет в массив $temp_array
+ *            теги для всех экстраполей плагина. После обработки они становятся доступны
+ *            с любым префиксом (например, {USERS_ROW_XTRA_ИМЯПОЛЯ}, {USERS_DETAILS_XTRA_ИМЯПОЛЯ}
+ *            и т.п.) в зависимости от вызова cot_generate_usertags().
+ *            Также добавляются теги _TITLE и _VALUE, а для поля country — _NAME.
  *
+ * Мультиязычность:
+ *   - select, radio, checklistbox: локализуются через языковой массив $L
+ *     (ключи вида $L[{field_name}_{value}]). Таблица xtradbrowusers_i18n не используется.
+ *   - checkbox: хранит 1/0, локализация отображения выполняется в шаблоне.
+ *   - input, textarea: при включённой мультиязычности значение может быть заменено
+ *     переводом из таблицы xtradbrowusers_i18n, если перевод для текущего языка был сохранён.
+ *   - inputint, double, datetime, range, file, country: вызывается
+ *     xtradbrowusers_i18n_get_value(), но переводы для этих типов в админке не сохраняются,
+ *     поэтому в стандартном сценарии возвращается оригинальное значение.
+ *   - country дополнительно получает локализованное название через массив $cot_countries
+ *     (файл стран), независимо от таблицы i18n.
  *
- * Custom Extrafields Users i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ * Path:     plugins/xtradbrowusers/xtradbrowusers.usertags.php
  *
- * Date: Jul 18, 2026
+ * Extrafields Users Custom i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ *
+ * Source and updates   https://github.com/webitproff/xtradbrowusers-cotonti
+ * ReadMeMore:          https://abuyfile.com/ru/market/cotonti/plugs/extrafields-users-custom
+ * Support:             https://abuyfile.com/ru/forums/cotonti/original/extrafields
+ * API Extrafields:     https://github.com/Cotonti/Cotonti/blob/master/system/extrafields.php
+ *
+ * Date: Aug 14, 2026
+ *
  * @package xtradbrowusers
- * @version 1.1.1
+ * @version 1.2.9
  * @author webitproff
- * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff/xtradbrowusers-cotonti
+ * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff
  * @license BSD
  *
  * @see cot_generate_usertags()
  * Хук usertags.main вызывается внутри функции cot_generate_usertags().
- * Переменная $temp_array доступна напрямую, без объявления global.
- * @var array<string, mixed> $user_data
+ * Переменные $temp_array и $user_data доступны напрямую, без объявления global.
  */
 
 defined('COT_CODE') or die('Wrong URL.');
