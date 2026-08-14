@@ -6,22 +6,42 @@
 ==================== */
 
 /**
- * Файл plugins/xtradbrowusers/xtradbrowusers.users.edit.update.done.php
- * Сохранение данных после редактирования пользователя администратором
- * Хук users.edit.update.done. Сохраняет значения extrafields в cot_xtradbrowusers.
+ * Filename: xtradbrowusers.users.edit.update.done.php – Сохранение данных после редактирования пользователя администратором
  *
+ * Purpose:   Подключается к хуку `users.edit.update.done`, который вызывается в файле
+ *            /modules/users/inc/users.edit.php после успешного обновления пользователя.
+ *            Через этот хук наш код сохраняет значения экстраполей плагина
+ *            в таблицу `cot_xtradbrowusers`, а также (при включённой мультиязычности)
+ *            сохраняет переводы для текстовых полей в таблицу `cot_xtradbrowusers_i18n`.
+ *            Для каждого экстраполя значение импортируется через API extrafields
+ *            с учётом типа, после чего вызывается `cot_extrafield_movefiles()`.
  *
- * Custom Extrafields Users i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ * Мультиязычность при сохранении:
+ *   - Основные значения всех типов полей сохраняются всегда.
+ *   - Переводы из формы сохраняются только для типов `input` и `textarea`.
+ *   - Для select, radio, checklistbox, checkbox переводы не сохраняются,
+ *     так как их локализация выполняется через языковой массив $L.
+ *   - Для остальных типов (inputint, double, datetime, range, file, country)
+ *     переводы также не сохраняются; отображается оригинальное значение.
  *
- * Date: Jul 18, 2026
+ * Path:     plugins/xtradbrowusers/xtradbrowusers.users.edit.update.done.php
+ *
+ * Extrafields Users Custom i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ *
+ * Source and updates   https://github.com/webitproff/xtradbrowusers-cotonti
+ * ReadMeMore:          https://abuyfile.com/ru/market/cotonti/plugs/extrafields-users-custom
+ * Support:             https://abuyfile.com/ru/forums/cotonti/original/extrafields
+ * API Extrafields:     https://github.com/Cotonti/Cotonti/blob/master/system/extrafields.php
+ *
+ * Date: Aug 14, 2026
+ *
  * @package xtradbrowusers
- * @version 1.1.1
+ * @version 1.2.9
  * @author webitproff
- * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff/xtradbrowusers-cotonti
+ * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff
  * @license BSD
  */
-
-
+ 
 /**
  * Сохранение основных данных и мультиязычных переводов при админском редактировании
  */
