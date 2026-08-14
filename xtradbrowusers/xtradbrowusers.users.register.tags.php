@@ -6,18 +6,38 @@
 ==================== */
 
 /**
- * Вывод полей в форме регистрации пользователя
- * Хук users.register.tags. Отображает все extrafields плагина xtradbrowusers
- * с их пустыми или предзаполненными значениями в форме регистрации.
+ * Filename: xtradbrowusers.users.register.tags.php – Вывод полей в форме регистрации пользователя
  *
+ * Purpose:   Подключается к хуку `users.register.tags`, который вызывается в файле
+ *            /modules/users/inc/users.register.php перед парсингом шаблона регистрации.
+ *            Отображает все экстраполя плагина в форме регистрации пользователя.
+ *            Назначает теги вида:
+ *            {USERS_REGISTER_XTRA_ИМЯПОЛЯ}, {USERS_REGISTER_XTRA_ИМЯПОЛЯ_TITLE},
+ *            а также общий тег {USERS_REGISTER_XTRA_EXTRAFLD} и
+ *            {USERS_REGISTER_XTRA_EXTRAFLD_TITLE}.
+ *            Значения полей берутся из $ruser (если есть) или null.
  *
- * Custom Extrafields Users i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ * Мультиязычность на этапе регистрации:
+ *   - Данный файл не выводит поля для переводов.
+ *   - Сохраняются только основные значения экстраполей.
+ *   - Локализация select, radio, checklistbox осуществляется через языковой массив $L;
+ *     i18n-переводы из таблицы xtradbrowusers_i18n на этом этапе не используются.
  *
- * Date: Jul 18, 2026
+ * Path:     plugins/xtradbrowusers/xtradbrowusers.users.register.tags.php
+ *
+ * Extrafields Users Custom i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ *
+ * Source and updates   https://github.com/webitproff/xtradbrowusers-cotonti
+ * ReadMeMore:          https://abuyfile.com/ru/market/cotonti/plugs/extrafields-users-custom
+ * Support:             https://abuyfile.com/ru/forums/cotonti/original/extrafields
+ * API Extrafields:     https://github.com/Cotonti/Cotonti/blob/master/system/extrafields.php
+ *
+ * Date: Aug 14, 2026
+ *
  * @package xtradbrowusers
- * @version 1.1.1
+ * @version 1.2.9
  * @author webitproff
- * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff/xtradbrowusers-cotonti
+ * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff
  * @license BSD
  */
 
