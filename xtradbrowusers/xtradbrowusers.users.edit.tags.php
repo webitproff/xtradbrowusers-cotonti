@@ -6,18 +6,45 @@
 ==================== */
 
 /**
- * Файл plugins/xtradbrowusers/xtradbrowusers.users.edit.tags.php - Вывод полей в форме админского редактирования пользователя
- * Хук users.edit.tags. Отображает все extrafields плагина xtradbrowusers
- * с их текущими значениями в форме редактирования пользователя администратором.
+ * Filename: xtradbrowusers.users.edit.tags.php – Вывод полей в форме админского редактирования пользователя
  *
+ * Purpose:   Подключается к хуку `users.edit.tags`, который вызывается в файле
+ *            /modules/users/inc/users.edit.php перед парсингом шаблона.
+ *            Отображает все экстраполя плагина в форме редактирования пользователя администратором.
+ *            Назначает теги вида:
+ *            {USERS_EDIT_XTRA_ИМЯПОЛЯ}, {USERS_EDIT_XTRA_ИМЯПОЛЯ_TITLE},
+ *            а также общий тег {USERS_EDIT_XTRA_EXTRAFLD} и
+ *            {USERS_EDIT_XTRA_EXTRAFLD_TITLE}.
+ *            Если включена мультиязычность, для полей input и textarea добавляются
+ *            поля ввода переводов для каждого активного ДОПОЛНИТЕЛЬНОГО языка
+ *            с тегами {USERS_EDIT_XTRA_ИМЯПОЛЯ_ЯЗЫК} и {USERS_EDIT_XTRA_ИМЯПОЛЯ_ЯЗЫК_TITLE},
+ *            где вместо "_ЯЗЫК" подставляем зарегистрированный код такого языка, например "_RU", "_EN" и т.д.
  *
- * Custom Extrafields Users i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ * Мультиязычность при выводе формы:
+ *   - select, radio, checklistbox: локализуются через языковой массив $L,
+ *     переводы в таблицу i18n не загружаются.
+ *   - checkbox: хранит 1/0, локализация в шаблоне.
+ *   - input, textarea: при включённой опции мультиязычности выводятся поля
+ *     для перевода на каждый активный дополнительный язык. Для textarea
+ *     перевод также отображается как многострочное поле.
+ *   - inputint, double, datetime, range, file, country: поля переводов не выводятся,
+ *     работает только оригинальное значение.
  *
- * Date: Jul 18, 2026
+ * Path:     plugins/xtradbrowusers/xtradbrowusers.users.edit.tags.php
+ *
+ * Extrafields Users Custom i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ *
+ * Source and updates   https://github.com/webitproff/xtradbrowusers-cotonti
+ * ReadMeMore:          https://abuyfile.com/ru/market/cotonti/plugs/extrafields-users-custom
+ * Support:             https://abuyfile.com/ru/forums/cotonti/original/extrafields
+ * API Extrafields:     https://github.com/Cotonti/Cotonti/blob/master/system/extrafields.php
+ *
+ * Date: Aug 14, 2026
+ *
  * @package xtradbrowusers
- * @version 1.1.1
+ * @version 1.2.9
  * @author webitproff
- * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff/xtradbrowusers-cotonti
+ * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff
  * @license BSD
  */
 
