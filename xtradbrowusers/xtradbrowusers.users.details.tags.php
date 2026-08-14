@@ -6,26 +6,55 @@ Hooks=users.details.tags
 ==================== */
 
 /**
- * Файл xtradbrowusers.users.details.tags.php - Вывод на странице публичного профиля пользователя (users.details.tpl)
- * Хук users.details.tags. Позволяет вывести все поля через блок <!-- BEGIN: XTRA_EXTRAFLD -->,
- * а также назначает индивидуальные теги {USERS_DETAILS_XTRA_ИМЯПОЛЯ}
+ * Filename: xtradbrowusers.users.details.tags.php – Вывод на странице публичного профиля пользователя
  *
- * С версии 1.1.1 добавлена поддержка мультиязычности:
- *  - для типов, не имеющих встроенной локализации (input, textarea, double, inputint,
- *    datetime, range, file, country), значение автоматически подменяется переводом
- *    из таблицы xtradbrowusers_i18n, если он существует для текущего языка.
- *  - для select, radio, checklistbox по‑прежнему используется языковой массив $L.
+ * Purpose:   Подключается к хуку `users.details.tags`, который находится в файле
+ *            /modules/users/inc/users.details.php. Через этот хук наш код
+ *            добавляет экстраполя пользователя в шаблон users.details.tpl.
+ *            Назначает индивидуальные теги:
+ *            {USERS_DETAILS_XTRA_ИМЯПОЛЯ}, {USERS_DETAILS_XTRA_ИМЯПОЛЯ_TITLE},
+ *            {USERS_DETAILS_XTRA_ИМЯПОЛЯ_VALUE}, а также дополнительные теги
+ *            {USERS_DETAILS_XTRA_EXTRAFIELD_TITLE}, {USERS_DETAILS_XTRA_EXTRAFIELD_VALUE},
+ *            {USERS_DETAILS_XTRA_EXTRAFIELD_NAME} и блок-цикл
+ *            <!-- BEGIN: XTRA_EXTRAFLD --> для вывода всех полей.
  *
+ *  Мультиязычность на публичной странице профиля:
+ *   - select, radio, checklistbox:
+ *       локализуются через языковые ключи вида $L[{field_name}_{value}].
+ *       При наличии перевода в языковом файле плагина/темы сайта выводится он,
+ *       иначе — исходное значение. Таблица xtradbrowusers_i18n не используется.
+ *   - checkbox:
+ *       хранит 1 или 0; локализация отображения («Да»/«Нет») выполняется
+ *       в шаблоне отдельно.
+ *   - input, textarea:
+ *       при включённой опции мультиязычности (xtradbrowusers_i18n_use)
+ *       значение может быть заменено переводом из xtradbrowusers_i18n,
+ *       если перевод для текущего языка был сохранён.
+ *   - inputint, double, datetime, range, file, country:
+ *       код вызывает xtradbrowusers_i18n_get_value(), но поскольку
+ *       интерфейс админки позволяет сохранять переводы только для input и textarea,
+ *       в стандартном сценарии для этих типов возвращается оригинальное значение.
+ *   - country дополнительно получает локализованное название через массив
+ *       $cot_countries (файл стран), независимо от таблицы i18n.
  *
- * Custom Extrafields Users i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ * Path:     plugins/xtradbrowusers/xtradbrowusers.users.details.tags.php
  *
- * Date: Jul 18, 2026
+ * Extrafields Users Custom i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ *
+ * Source and updates   https://github.com/webitproff/xtradbrowusers-cotonti
+ * ReadMeMore:          https://abuyfile.com/ru/market/cotonti/plugs/extrafields-users-custom
+ * Support:             https://abuyfile.com/ru/forums/cotonti/original/extrafields
+ * API Extrafields:     https://github.com/Cotonti/Cotonti/blob/master/system/extrafields.php
+ *
+ * Date: Aug 14, 2026
+ *
  * @package xtradbrowusers
- * @version 1.1.1
+ * @version 1.2.9
  * @author webitproff
- * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff/xtradbrowusers-cotonti
+ * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff
  * @license BSD
  */
+
 
 defined('COT_CODE') or die('Wrong URL.');
 
