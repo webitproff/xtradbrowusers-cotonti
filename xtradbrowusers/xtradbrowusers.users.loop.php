@@ -6,25 +6,52 @@ Hooks=users.loop
 ==================== */
 
 /**
- * Файл plugins/xtradbrowusers/xtradbrowusers.users.loop.php
- * Вывод полей в списке пользователей (users.tpl)
- * Хук users.loop. Добавляет теги, например {USERS_ROW_XTRA_XXXXX} и {USERS_ROW_XTRA_XXXXX_TITLE} для каждой строки списка.
+ * Filename: xtradbrowusers.users.loop.php – Вывод полей в списке пользователей (users.tpl)
  *
- * С версии 1.1.1 добавлена поддержка мультиязычности:
- *  - для типов без встроенной локализации (input, textarea, double, inputint и т.д.)
- *    значение подменяется переводом из xtradbrowusers_i18n, если он существует для текущего языка.
- *  - для select, radio, checklistbox по‑прежнему используется языковой массив $L.
+ * Purpose:   Подключается к хуку `users.loop`, который вызывается в файле
+ *            /modules/users/inc/users.main.php на каждой итерации цикла вывода списка пользователей.
+ *            Добавляет в шаблон users.tpl теги для каждого экстраполя:
+ *            {USERS_ROW_XTRA_ИМЯПОЛЯ}, {USERS_ROW_XTRA_ИМЯПОЛЯ_TITLE},
+ *            {USERS_ROW_XTRA_ИМЯПОЛЯ_VALUE}, а также универсальные теги
+ *            {USERS_ROW_XTRA_EXTRAFLD} и {USERS_ROW_XTRA_EXTRAFLD_TITLE},
+ *            которые позволяют выводить все поля через блок <!-- BEGIN: XTRA_EXTRAFLD -->.
+ *            Для полей типа country дополнительно назначается тег _NAME
+ *            с локализованным названием страны из файла стран.
  *
+ * Мультиязычность в списке пользователей:
+ *   - select, radio, checklistbox:
+ *       локализуются через языковой массив $L (ключи вида $L[{field_name}_{value}]).
+ *       Таблица xtradbrowusers_i18n не используется.
+ *   - checkbox:
+ *       хранит 1 или 0, локализация отображения («Да»/«Нет») выполняется в шаблоне.
+ *   - input, textarea:
+ *       при включённой мультиязычности значение может быть заменено переводом
+ *       из таблицы xtradbrowusers_i18n, если перевод для текущего языка был сохранён.
+ *   - inputint, double, datetime, range, file, country:
+ *       код пытается подменить через xtradbrowusers_i18n_get_value(),
+ *       но переводы для этих типов в админке не сохраняются, поэтому обычно
+ *       выводится оригинальное значение.
+ *   - country дополнительно получает локализованное название через массив
+ *       $cot_countries (файл стран), независимо от таблицы i18n.
  *
- * Custom Extrafields Users i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ * Path:     plugins/xtradbrowusers/xtradbrowusers.users.loop.php
  *
- * Date: Jul 18, 2026
+ * Extrafields Users Custom i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ *
+ * Source and updates   https://github.com/webitproff/xtradbrowusers-cotonti
+ * ReadMeMore:          https://abuyfile.com/ru/market/cotonti/plugs/extrafields-users-custom
+ * Support:             https://abuyfile.com/ru/forums/cotonti/original/extrafields
+ * API Extrafields:     https://github.com/Cotonti/Cotonti/blob/master/system/extrafields.php
+ *
+ * Date: Aug 14, 2026
+ *
  * @package xtradbrowusers
- * @version 1.1.1
+ * @version 1.2.9
  * @author webitproff
- * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff/xtradbrowusers-cotonti
+ * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff
  * @license BSD
  */
+
 defined('COT_CODE') or die('Wrong URL.');
 
 require_once cot_incfile('xtradbrowusers', 'plug');
