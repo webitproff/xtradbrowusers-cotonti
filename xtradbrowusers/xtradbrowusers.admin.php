@@ -174,7 +174,7 @@ if ($tab === 'stats') {
     if (!empty($extrafields)) {
         foreach ($extrafields as $exfld) {
             $t->assign([
-                'FIELD_NAME'        => htmlspecialchars($exfld['field_name']),
+                'FIELD_NAME'        => htmlspecialchars(mb_strtoupper($exfld['field_name'])),
                 'FIELD_TYPE'        => htmlspecialchars($exfld['field_type']),
                 'FIELD_DESCRIPTION' => htmlspecialchars($exfld['field_description'] ?? ''),
                 'FIELD_VARIANTS'    => htmlspecialchars($exfld['field_variants'] ?? ''),
