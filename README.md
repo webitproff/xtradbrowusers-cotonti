@@ -134,7 +134,7 @@ ___
 3. Переустановите плагин или выполните обновление через панель администратора.
 4. Очистите кеш.
 
-Полная документация и примеры использования доступны в репозитории.
+Полная документация и примеры использования доступны в **[репозитории](https://github.com/webitproff/xtradbrowusers-cotonti/)**.
 
 ---
 
@@ -142,6 +142,7 @@ ___
 
 Ваши отзывы, сообщения об ошибках и пожелания помогут сделать плагин ещё лучше.
 
+- Страница плагина в маркетплейсе расширений для Cotonti: [https://abuyfile.com/ru/market/cotonti/plugs/extrafields-users-custom](https://abuyfile.com/ru/market/cotonti/plugs/extrafields-users-custom)
 - Форум поддержки: [abuyfile.com/ru/forums/cotonti/custom/plugs/xtradbrowusers](https://abuyfile.com/ru/forums/cotonti/custom/plugs/xtradbrowusers)
 - GitHub Issues: [github.com/webitproff/xtradbrowusers-cotonti/issues](https://github.com/webitproff/xtradbrowusers-cotonti/issues)
 
