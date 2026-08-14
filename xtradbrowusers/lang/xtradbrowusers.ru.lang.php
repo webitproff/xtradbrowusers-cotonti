@@ -40,6 +40,7 @@ global $db_x;
 $main_url = rtrim(Cot::$cfg['mainurl'], '/');
 $url = $main_url . '/' . cot_url('admin', 'm=extrafields&n=' . $db_x . 'xtradbrowusers', '', true);
 // устанавливаем ключ и определяем перевенную до вызова в ссылке в $L['info_notes']!
+// это же название передаем в список, в Управление сайтом >> Прочее >> Экстраполя
 $L['xtradbrowusers'] = 'Extrafields Users Custom i18n';  
 
 
