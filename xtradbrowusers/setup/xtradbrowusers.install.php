@@ -2,19 +2,31 @@
 /**
  * Filename: xtradbrowusers.install.php – Демонстрационные экстраполя при первичной установке
  *
- * Создаёт для таблицы cot_xtradbrowusers полный комплект демо-полей всех типов,
- * поддерживаемых Cotonti Extrafields. Каждое поле сразу готово к работе, а
- * в админке можно посмотреть живые примеры оформления экстраполей.
+ * Purpose: создаёт для таблицы cot_xtradbrowusers полный комплект демо-полей всех типов,
+ *            поддерживаемых Cotonti Extrafields. Каждое поле сразу готово к работе,
+ *            а в админке можно посмотреть живые примеры оформления экстраполей.
  *
- * Custom Extrafields Users i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ * Note:    Экстраполя типа = ['first_name', 'firstname', 'last_name', 'lastname', 'middle_name', 'middlename'];
+ *          намерено не создавал, в силу их множества вариаций и возможного наличия на работающих сайтах
  *
- * Date: Jul 18, 2026
+ * Path:     plugins/xtradbrowusers/setup/xtradbrowusers.install.php
+ *
+ * Extrafields Users Custom i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ *
+ * Source and updates   https://github.com/webitproff/xtradbrowusers-cotonti
+ * ReadMeMore:          https://abuyfile.com/ru/market/cotonti/plugs/extrafields-users-custom
+ * Support:             https://abuyfile.com/ru/forums/cotonti/original/extrafields
+ * API Extrafields:     https://github.com/Cotonti/Cotonti/blob/master/system/extrafields.php
+ *
+ * Date: Aug 14, 2026
+ *
  * @package xtradbrowusers
- * @version 1.1.1
+ * @version 1.2.9
  * @author webitproff
- * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff/xtradbrowusers-cotonti
+ * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff
  * @license BSD
  */
+
 
 defined('COT_CODE') or die('Wrong URL');
 require_once cot_incfile('xtradbrowusers', 'plug');
@@ -22,11 +34,71 @@ require_once cot_incfile('xtradbrowusers', 'plug');
 global $db_xtradbrowusers;
 
 // ====================================================================
-// 1. Простое текстовое поле (input) — Дополнительный телефон
+// 1. Текстовое поле (input) — Контактный телефон
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
-    'phone_extra',
+    'x010_phone_vendor_orders',
+    'input',
+    '<input class="form-control" type="text" name="{$name}" value="{$value}" maxlength="255" />{$error}',
+    '',
+    '',
+    0,
+    'HTML',
+    'Контактный телефон'
+);
+
+// ====================================================================
+// 2. Текстовое поле (input) — Телеграм для сообщений
+// ====================================================================
+cot_extrafield_add(
+    $db_xtradbrowusers,
+    'x011_tg_vendor_orders',
+    'input',
+    '<input class="form-control" type="text" name="{$name}" value="{$value}" maxlength="255" />{$error}',
+    '',
+    '',
+    0,
+    'HTML',
+    'Телеграм для сообщений'
+);
+
+// ====================================================================
+// 3. Текстовое поле (input) — Телеграм канал
+// ====================================================================
+cot_extrafield_add(
+    $db_xtradbrowusers,
+    'x012_tg_chanel_vendor',
+    'input',
+    '<input class="form-control" type="text" name="{$name}" value="{$value}" maxlength="255" />{$error}',
+    '',
+    '',
+    0,
+    'HTML',
+    'Телеграм канал'
+);
+
+// ====================================================================
+// 4. Многострочный текст (textarea) — Обо мне
+// ====================================================================
+cot_extrafield_add(
+    $db_xtradbrowusers,
+    'x020_about_vendor_text',
+    'textarea',
+    '<textarea class="form-control" name="{$name}" rows="{$rows}" cols="{$cols}">{$value}</textarea>{$error}',
+    '',
+    '',
+    0,
+    'HTML',
+    'Обо мне'
+);
+
+// ====================================================================
+// 5. Простое текстовое поле (input) — Дополнительный телефон
+// ====================================================================
+cot_extrafield_add(
+    $db_xtradbrowusers,
+    'x200_phone_extra',
     'input',
     '<input class="form-control" type="text" name="{$name}" value="{$value}" maxlength="255" />',
     '',
@@ -37,11 +109,11 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 2. Многострочный текст (textarea) — О себе
+// 6. Многострочный текст (textarea) — О чем-то для текста
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
-    'about_extra',
+    'x200_about_extra',
     'textarea',
     '<textarea class="form-control" name="{$name}" rows="5" cols="40">{$value}</textarea>',
     '',
@@ -52,11 +124,11 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 3. Дата и время (datetime) — Дата найма
+// 7. Дата и время (datetime) — Дата найма
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
-    'hire_date',
+    'x200_hire_date',
     'datetime',
     '<div class="row g-2">
         <div class="col-2">{$day}</div>
@@ -75,11 +147,11 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 4. Число с плавающей точкой (double) — Зарплата
+// 8. Число с плавающей точкой (double) — Зарплата
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
-    'salary',
+    'x200_salary',
     'double',
     '<input class="form-control" type="text" name="{$name}" value="{$value}" />',
     '',
@@ -90,11 +162,11 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 5. Выпадающий список (select) — Отдел (варианты на латинице)
+// 9. Выпадающий список (select) — Отдел (варианты на латинице)
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
-    'department',
+    'x200_department',
     'select',
     '<select class="form-select" name="{$name}">{$options}</select>',
     'not_specified,it,marketing,sales,support',
@@ -105,11 +177,11 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 6. Целое число (inputint) — Стаж (лет)
+// 10. Целое число (inputint) — Стаж (лет)
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
-    'experience_years',
+    'x200_experience_years',
     'inputint',
     '<input class="form-control" type="number" name="{$name}" value="{$value}" />',
     '',
@@ -124,11 +196,11 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 7. Выпадающий список (select) — Уровень квалификации (варианты на латинице)
+// 11. Выпадающий список (select) — Уровень квалификации (варианты на латинице)
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
-    'skill_level',
+    'x200_skill_level',
     'select',
     '<select class="form-select" name="{$name}">{$options}</select>',
     'junior,middle,senior,lead',
@@ -139,11 +211,11 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 8. Радиокнопки (radio) — Наличие автомобиля (варианты оставлены Yes/No)
+// 12. Радиокнопки (radio) — Наличие автомобиля (варианты оставлены Yes/No)
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
-    'has_car',
+    'x200_has_car',
     'radio',
     '<div class="form-check">
        <input class="form-check-input" type="radio" name="{$name}" value="{$value}" {$checked} />
@@ -157,11 +229,11 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 9. Дата и время (datetime) — Дата последнего повышения
+// 13. Дата и время (datetime) — Дата последнего повышения
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
-    'last_promotion',
+    'x200_last_promotion',
     'datetime',
     '<div class="row g-2">
       <div class="col-2">{$day}</div>
@@ -180,11 +252,11 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 10. Загрузка файла (file) — Резюме
+// 14. Загрузка файла (file) — Резюме
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
-    'resume_file',
+    'x200_resume_file',
     'file',
     '<div class="list-group mb-3">
        <div class="list-group-item list-group-item-secondary">
@@ -212,11 +284,11 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 11. Страна (country) — Страна проживания
+// 15. Страна (country) — Страна проживания
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
-    'residence_country',
+    'x200_residence_country',
     'country',
     '<select class="form-select" name="{$name}" size="1">
        <option value="">Выберите страну</option>{$options}
@@ -229,11 +301,11 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 12. Ползунок (range) — Уровень английского
+// 16. Ползунок (range) — Уровень английского
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
-    'english_level',
+    'x200_english_level',
     'range',
     '<select class="form-select" name="{$name}">{$options}</select>',
     '',
@@ -245,11 +317,11 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 13. Список с множественным выбором (checklistbox) — Интересы (варианты на латинице)
+// 17. Список с множественным выбором (checklistbox) — Интересы (варианты на латинице)
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
-    'interests',
+    'x200_interests',
     'checklistbox',
     '<div class="form-check">
        <input class="form-check-input" type="checkbox" name="{$name}" value="{$value}" {$checked} />
@@ -263,11 +335,11 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 14. Выпадающий список (select) — График работы (варианты на латинице)
+// 18. Выпадающий список (select) — График работы (варианты на латинице)
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
-    'work_schedule',
+    'x200_work_schedule',
     'select',
     '<select class="form-select" name="{$name}">{$options}</select>',
     'full_time,shift,remote,flexible',
@@ -278,11 +350,11 @@ cot_extrafield_add(
 );
 
 // ====================================================================
-// 15. Текстовое поле (input) — Экстренный контакт
+// 19. Текстовое поле (input) — Экстренный контакт
 // ====================================================================
 cot_extrafield_add(
     $db_xtradbrowusers,
-    'emergency_contact',
+    'x200_emergency_contact',
     'input',
     '<input class="form-control" type="text" name="{$name}" value="{$value}" maxlength="255" />',
     '',
