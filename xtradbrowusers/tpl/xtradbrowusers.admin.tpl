@@ -117,7 +117,7 @@
             <tbody>
                 <!-- BEGIN: STATS_EXTRAFIELDS_ROW -->
                 <tr>
-                    <td>{FIELD_NAME}</td>
+                    <td><code class="fs-5">{FIELD_NAME}</code></td>
                     <td>{FIELD_TYPE}</td>
                     <td>{FIELD_DESCRIPTION}</td>
                     <td>{FIELD_VARIANTS}</td>
