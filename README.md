@@ -8,6 +8,9 @@
 [![License](https://img.shields.io/badge/license-BSD-blue.svg)](https://github.com/webitproff/xtradbrowusers-cotonti/blob/main/LICENSE)
 
 ## Массовое редактирование в админке и мультиязычные экстраполя пользователей в Cotonti
+<img width="1727" height="910" alt="extrafields-users-custom" src="https://github.com/user-attachments/assets/19343b41-da97-4627-b9bd-1ca919d8838c" />
+
+
 
 <img width="1535" height="1024" alt="xtradbrowusers_i18n" src="https://github.com/user-attachments/assets/3c9584e7-3331-42a8-8a3f-355c7470d703" />
 
