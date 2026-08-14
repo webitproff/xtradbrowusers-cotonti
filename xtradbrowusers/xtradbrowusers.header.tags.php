@@ -6,7 +6,9 @@
 ==================== */
 
 /**
- * Файл plugins/xtradbrowusers/xtradbrowusers.header.tags.php - Добавление тегов XTRA в header.tpl
+ * Filename: xtradbrowusers.header.tags.php – вешаем свои теги на хук header.tags
+ *
+ * Purpose:   Добавление тегов XTRA в header.tpl
  * Хук header.tags. Присваивает теги {USERS_HEADER_XTRA_XXXXX} и {USERS_HEADER_XTRA_XXXXX_TITLE}
  * для использования в <title>, мета-описании и т.д. на страницах, где определён $urr.
  *
@@ -15,15 +17,24 @@
  *    значение подменяется переводом из xtradbrowusers_i18n, если он существует для текущего языка.
  *  - для select, radio, checklistbox по‑прежнему используется языковой массив $L.
  *
- * Custom Extrafields Users i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ * Path:     plugins/xtradbrowusers/xtradbrowusers.header.tags.php
  *
- * Date: Jul 18, 2026
+ * Extrafields Users Custom i18n plugin for Cotonti v1.+, PHP 8.5+, MySQL 8.4
+ *
+ * Source and updates   https://github.com/webitproff/xtradbrowusers-cotonti
+ * ReadMeMore:          https://abuyfile.com/ru/market/cotonti/plugs/extrafields-users-custom
+ * Support:             https://abuyfile.com/ru/forums/cotonti/original/extrafields
+ * API Extrafields:     https://github.com/Cotonti/Cotonti/blob/master/system/extrafields.php
+ *
+ * Date: Aug 14, 2026
+ *
  * @package xtradbrowusers
- * @version 1.1.1
+ * @version 1.2.9
  * @author webitproff
- * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff/xtradbrowusers-cotonti
+ * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff
  * @license BSD
  */
+
 
 defined('COT_CODE') or die('Wrong URL.');
 require_once cot_incfile('xtradbrowusers', 'plug');
