@@ -43,10 +43,10 @@ Hooks=users.loop
  * Support:             https://abuyfile.com/ru/forums/cotonti/original/extrafields
  * API Extrafields:     https://github.com/Cotonti/Cotonti/blob/master/system/extrafields.php
  *
- * Date: Aug 14, 2026
+ * Date: Aug 15, 2026
  *
  * @package xtradbrowusers
- * @version 1.2.9
+ * @version 1.2.9.1
  * @author webitproff
  * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff
  * @license BSD
@@ -64,7 +64,7 @@ if (!empty($extrafields) && !empty($urr['user_id'])) {
         $builtInI18nTypes = ['select', 'radio', 'checklistbox', 'checkbox'];
 
         foreach ($extrafields as $exfld) {
-            $tag = 'XTRA_' . strtoupper($exfld['field_name']);
+            $tag = strtoupper($exfld['field_name']);
             $value = $xtra_data[$exfld['field_name']] ?? null;
 
             // Подмена значения на перевод, если мультиязычность включена и тип поля не
@@ -77,9 +77,9 @@ if (!empty($extrafields) && !empty($urr['user_id'])) {
 
             // Индивидуальные теги для каждого поля
             $t->assign([
-                'USERS_ROW_' . $tag             => cot_build_extrafields_data('xtra', $exfld, $displayValue),
-                'USERS_ROW_' . $tag . '_TITLE'  => cot_extrafield_title($exfld, 'xtra_'),
-                'USERS_ROW_' . $tag . '_VALUE'  => $displayValue,
+                'USERS_ROW_XTRA_' . $tag             => cot_build_extrafields_data('xtra', $exfld, $displayValue),
+                'USERS_ROW_XTRA_' . $tag . '_TITLE'  => cot_extrafield_title($exfld, 'xtra_'),
+                'USERS_ROW_XTRA_' . $tag . '_VALUE'  => $displayValue,
             ]);
 
             // === Универсальные теги для группового цикла ===
@@ -99,20 +99,20 @@ if (!empty($extrafields) && !empty($urr['user_id'])) {
                     include $country_lang;
                 }
                 // $value содержит код страны (ua, us), а не переведённое название
-                $t->assign('USERS_ROW_' . $tag . '_NAME', isset($cot_countries[$value]) ? $cot_countries[$value] : $value);
+                $t->assign('USERS_ROW_XTRA_' . $tag . '_NAME', isset($cot_countries[$value]) ? $cot_countries[$value] : $value);
             }
         }
     } else {
         // Если данных в xtradbrowusers нет, очищаем все теги
         foreach ($extrafields as $exfld) {
-            $tag = 'XTRA_' . strtoupper($exfld['field_name']);
+            $tag = strtoupper($exfld['field_name']);
             $t->assign([
-                'USERS_ROW_' . $tag             => '',
-                'USERS_ROW_' . $tag . '_TITLE'  => '',
-                'USERS_ROW_' . $tag . '_VALUE'  => '',
+                'USERS_ROW_XTRA_' . $tag             => '',
+                'USERS_ROW_XTRA_' . $tag . '_TITLE'  => '',
+                'USERS_ROW_XTRA_' . $tag . '_VALUE'  => '',
             ]);
             if ($exfld['field_type'] === 'country') {
-                $t->assign('USERS_ROW_' . $tag . '_NAME', '');
+                $t->assign('USERS_ROW_XTRA_' . $tag . '_NAME', '');
             }
         }
         // Групповой блок XTRA_EXTRAFLD в этом случае не получит итераций
