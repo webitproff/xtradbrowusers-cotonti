@@ -11,7 +11,7 @@ Hooks=usertags.main
  * Purpose:   Подключается к хуку `usertags.main`, который вызывается внутри функции
  *            cot_generate_usertags() (system/functions.php). Добавляет в массив $temp_array
  *            теги для всех экстраполей плагина. После обработки они становятся доступны
- *            с любым префиксом (например, {USERS_ROW_XTRA_ИМЯПОЛЯ}, {USERS_DETAILS_XTRA_ИМЯПОЛЯ}
+ *            с любым префиксом (например, {PAGE_OWNER_XTRA_ИМЯПОЛЯ}, {FORUMS_POSTS_ROW_USER_XTRA_ИМЯПОЛЯ}
  *            и т.п.) в зависимости от вызова cot_generate_usertags().
  *            Также добавляются теги _TITLE и _VALUE, а для поля country — _NAME.
  *
@@ -36,10 +36,10 @@ Hooks=usertags.main
  * Support:             https://abuyfile.com/ru/forums/cotonti/original/extrafields
  * API Extrafields:     https://github.com/Cotonti/Cotonti/blob/master/system/extrafields.php
  *
- * Date: Aug 14, 2026
+ * Date: Aug 15, 2026
  *
  * @package xtradbrowusers
- * @version 1.2.9
+ * @version 1.2.9.1
  * @author webitproff
  * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff
  * @license BSD
@@ -52,7 +52,6 @@ Hooks=usertags.main
 defined('COT_CODE') or die('Wrong URL.');
 
 require_once cot_incfile('xtradbrowusers', 'plug');
-
 $extrafields = xtradbrowusers_getExtrafields();
 if (!empty($extrafields) && !empty($user_data['user_id'])) {
     $xtra_data = xtradbrowusers_load($user_data['user_id']);
@@ -61,7 +60,7 @@ if (!empty($extrafields) && !empty($user_data['user_id'])) {
         $builtInI18nTypes = ['select', 'radio', 'checklistbox', 'checkbox'];
 
         foreach ($extrafields as $exfld) {
-            $tag = 'XTRA_' . strtoupper($exfld['field_name']);
+            $tag = strtoupper($exfld['field_name']);
             $value = $xtra_data[$exfld['field_name']] ?? null;
 
             // Подмена значения на перевод, если мультиязычность включена и тип поля не
@@ -72,9 +71,9 @@ if (!empty($extrafields) && !empty($user_data['user_id'])) {
                 $displayValue = xtradbrowusers_i18n_get_value($user_data['user_id'], $exfld['field_name'], $value);
             }
 
-            $temp_array[$tag] = cot_build_extrafields_data('xtra', $exfld, $displayValue);
-            $temp_array[$tag . '_TITLE'] = cot_extrafield_title($exfld, 'xtra_');
-            $temp_array[$tag . '_VALUE'] = $displayValue;
+            $temp_array['XTRA_' . $tag] = cot_build_extrafields_data('xtra', $exfld, $displayValue);
+            $temp_array['XTRA_' . $tag . '_TITLE'] = cot_extrafield_title($exfld, 'xtra_');
+            $temp_array['XTRA_' . $tag . '_VALUE'] = $displayValue;
 
             // Название страны, если поле — country (используем оригинальный код страны)
             if ($exfld['field_type'] === 'country') {
@@ -83,17 +82,17 @@ if (!empty($extrafields) && !empty($user_data['user_id'])) {
                     include $country_lang;
                 }
                 // $value содержит код страны (ua, us), а не переведённое название
-                $temp_array[$tag . '_NAME'] = isset($cot_countries[$value]) ? $cot_countries[$value] : $value;
+                $temp_array['XTRA_' . $tag . '_NAME'] = isset($cot_countries[$value]) ? $cot_countries[$value] : $value;
             }
         }
     } else {
         foreach ($extrafields as $exfld) {
-            $tag = 'XTRA_' . strtoupper($exfld['field_name']);
-            $temp_array[$tag] = '';
-            $temp_array[$tag . '_TITLE'] = '';
-            $temp_array[$tag . '_VALUE'] = '';
+            $tag = strtoupper($exfld['field_name']);
+            $temp_array['XTRA_' . $tag] = '';
+            $temp_array['XTRA_' . $tag . '_TITLE'] = '';
+            $temp_array['XTRA_' . $tag . '_VALUE'] = '';
             if ($exfld['field_type'] === 'country') {
-                $temp_array[$tag . '_NAME'] = '';
+                $temp_array['XTRA_' . $tag . '_NAME'] = '';
             }
         }
     }
