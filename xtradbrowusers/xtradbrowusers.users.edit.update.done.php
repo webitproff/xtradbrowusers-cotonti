@@ -33,10 +33,10 @@
  * Support:             https://abuyfile.com/ru/forums/cotonti/original/extrafields
  * API Extrafields:     https://github.com/Cotonti/Cotonti/blob/master/system/extrafields.php
  *
- * Date: Aug 14, 2026
+ * Date: Aug 15, 2026
  *
  * @package xtradbrowusers
- * @version 1.2.9
+ * @version 1.2.9.1
  * @author webitproff
  * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff
  * @license BSD
@@ -59,8 +59,12 @@ if (isset($id) && $id > 0) {
             $fieldName = $exfld['field_name'];
             $inputName = 'rxtra_' . $fieldName;
             $oldValue = $xtra_data[$fieldName] ?? '';
-            // Проверяем, был ли отправлен соответствующий элемент формы
-            if (isset($_POST[$inputName]) || (isset($_FILES[$inputName]) && $_FILES[$inputName]['error'] !== UPLOAD_ERR_NO_FILE)) {
+            // Проверяем, был ли отправлен элемент формы, запрошено удаление или загружен файл
+            if (
+                isset($_POST[$inputName]) ||
+                isset($_POST['rdel_' . $inputName]) ||
+                (isset($_FILES[$inputName]) && $_FILES[$inputName]['error'] !== UPLOAD_ERR_NO_FILE)
+            ) {
                 $data[$fieldName] = cot_import_extrafields($inputName, $exfld, 'P', $oldValue, 'xtra_');
             } else {
                 $data[$fieldName] = $oldValue; // поле не отправлено — сохраняем прежнее значение
