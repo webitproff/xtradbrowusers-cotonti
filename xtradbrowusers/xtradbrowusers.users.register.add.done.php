@@ -28,10 +28,10 @@
  * Support:             https://abuyfile.com/ru/forums/cotonti/original/extrafields
  * API Extrafields:     https://github.com/Cotonti/Cotonti/blob/master/system/extrafields.php
  *
- * Date: Aug 14, 2026
+ * Date: Aug 15, 2026
  *
  * @package xtradbrowusers
- * @version 1.2.9
+ * @version 1.2.9.1
  * @author webitproff
  * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff
  * @license BSD
@@ -45,14 +45,26 @@ if (isset($userid) && $userid > 0) {
     $extrafields = xtradbrowusers_getExtrafields();
     if (!empty($extrafields)) {
         $data = [];
-        foreach ($extrafields as $exfld) {
-            $fieldName = $exfld['field_name'];
-            $inputName = 'rxtra_' . $fieldName;
-            $oldValue = '';
-            $data[$fieldName] = cot_import_extrafields($inputName, $exfld, 'P', $oldValue, 'xtra_');
-        }
-        xtradbrowusers_save($userid, $data);
+			foreach ($extrafields as $exfld) {
+				$fieldName = $exfld['field_name'];
+				$inputName = 'rxtra_' . $fieldName;
+				$oldValue = '';
+
+				// Проверяем, было ли отправлено поле (или загружен файл)
+				if (isset($_POST[$inputName]) || (isset($_FILES[$inputName]) && $_FILES[$inputName]['error'] !== UPLOAD_ERR_NO_FILE)) {
+					$data[$fieldName] = cot_import_extrafields($inputName, $exfld, 'P', $oldValue, 'xtra_');
+				} else {
+					// Поле не отправлено — сохраняем пустое значение
+					// Для checklistbox это корректно, для одиночного checkbox нужно было бы 0,
+					// но в текущем наборе демо-полей таких нет.
+					$data[$fieldName] = '';
+				}
+			}
+			xtradbrowusers_save($userid, $data);
         // Перемещаем загруженные файлы в целевую папку
         cot_extrafield_movefiles();
     }
 }
+
+
+
