@@ -186,7 +186,7 @@
         <!-- ENDIF -->
 	</div>
 	
-    <form method="post" action="{EDIT_FORM_URL}">
+    <form action="{EDIT_FORM_URL}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="sq" value="{SEARCH_SQ_VALUE}">
         <input type="hidden" name="search_in" value="{SEARCH_IN_VALUE}">
         <input type="hidden" name="filter_id" value="{SEARCH_FILTER_ID_VALUE}">
