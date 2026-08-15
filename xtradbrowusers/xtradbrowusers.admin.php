@@ -102,10 +102,10 @@ Hooks=tools
  * Support:             https://abuyfile.com/ru/forums/cotonti/original/extrafields
  * API Extrafields:     https://github.com/Cotonti/Cotonti/blob/master/system/extrafields.php
  *
- * Date: Aug 14, 2026
+ * Date: Aug 15, 2026
  *
  * @package xtradbrowusers
- * @version 1.2.9
+ * @version 1.2.9.1
  * @author webitproff
  * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff
  * @license BSD
@@ -174,7 +174,7 @@ if ($tab === 'stats') {
     if (!empty($extrafields)) {
         foreach ($extrafields as $exfld) {
             $t->assign([
-                'FIELD_NAME'        => htmlspecialchars(mb_strtoupper($exfld['field_name'])),
+                'FIELD_NAME' => htmlspecialchars(mb_strtoupper($exfld['field_name'])),
                 'FIELD_TYPE'        => htmlspecialchars($exfld['field_type']),
                 'FIELD_DESCRIPTION' => htmlspecialchars($exfld['field_description'] ?? ''),
                 'FIELD_VARIANTS'    => htmlspecialchars($exfld['field_variants'] ?? ''),
@@ -272,7 +272,61 @@ if ($tab === 'edit') {
                 } else {
                     $oldValue = $oldData[$fname] ?? '';
                 }
+				// ============ ОСОБАЯ ОБРАБОТКА ДЛЯ ПОЛЯ ТИПА FILE ============
+				if ($exfld['field_type'] == 'file') {
+					$deleteRequested = isset($_POST['rdel_' . $postKey][$id]) && $_POST['rdel_' . $postKey][$id] == 1;
+					$hasNewFile = isset($_FILES[$postKey]['name'][$id]) && $_FILES[$postKey]['error'][$id] !== UPLOAD_ERR_NO_FILE;
 
+					// Если нужно удалить старый файл
+					if ($deleteRequested && !empty($oldValue)) {
+						cot_extrafield_unlinkfiles($oldValue, $exfld);
+						$data[$fname] = '';
+						$changed = true;
+					}
+
+					// Если загружен новый файл
+					if ($hasNewFile) {
+						// Формируем временное имя для одиночного файла
+						$tmpName = 'rxtra_' . $fname . '_' . $id . '_tmp';
+						$singleFile = [
+							'name'     => $_FILES[$postKey]['name'][$id],
+							'type'     => $_FILES[$postKey]['type'][$id],
+							'tmp_name' => $_FILES[$postKey]['tmp_name'][$id],
+							'error'    => $_FILES[$postKey]['error'][$id],
+							'size'     => $_FILES[$postKey]['size'][$id],
+						];
+
+						// Временно подменяем $_FILES
+						$oldFiles = $_FILES;
+						$_FILES[$tmpName] = $singleFile;
+
+						// Вызываем импорт с передачей старого значения
+						$newFileValue = cot_import_extrafields($tmpName, $exfld, 'P', $oldValue, 'xtra_');
+						$_FILES = $oldFiles;
+
+						// Проверяем ошибки (если cot_error_found(), не сохраняем)
+						if (cot_error_found()) {
+							// Можно прервать обработку или пропустить поле
+							// Здесь просто не сохраняем значение
+						} elseif ($newFileValue !== null && $newFileValue !== '') {
+							// Если старый файл существует и не был удалён отдельно, удалим его
+							if (!empty($oldValue) && !$deleteRequested) {
+								cot_extrafield_unlinkfiles($oldValue, $exfld);
+							}
+							$data[$fname] = $newFileValue;
+							$changed = true;
+						}
+					}
+
+					// Если ничего не изменилось, сохраняем старое значение
+					if (!$deleteRequested && !$hasNewFile) {
+						$data[$fname] = $oldValue;
+					}
+
+					continue;
+				}
+				// ============ КОНЕЦ ОБРАБОТКИ FILE ============
+				
                 $newValue = $oldValue; // по умолчанию не меняем
                 $isPosted = isset($_POST[$postKey][$id]);
 
@@ -350,7 +404,9 @@ if ($tab === 'edit') {
                 $updatedCount++;
             }
         }
-
+		// Перемещаем загруженные файлы после всех изменений
+		cot_extrafield_movefiles();
+		
         $msg = '';
         if ($updatedCount > 0) {
             $msg .= sprintf(Cot::$L['xtradbrowusers_updated'], $updatedCount);
