@@ -5,8 +5,8 @@ Code=xtradbrowusers
 Name=Extrafields Users Custom i18n
 Description=Custom Extrafields for Users module stored in own database table.
 Category=administration-management
-Version=1.2.9
-Date=Aug 14, 2026
+Version=1.2.9.1
+Date=Aug 15, 2026
 Author=webitproff
 Copyright=Copyright (c) 2026 webitproff https://github.com/webitproff/
 Notes=BSD License
@@ -49,10 +49,10 @@ defined('COT_CODE') or die('Wrong URL');
  * Support:             https://abuyfile.com/ru/forums/cotonti/original/extrafields
  * API Extrafields:     https://github.com/Cotonti/Cotonti/blob/master/system/extrafields.php
  *
- * Date: Aug 14, 2026
+ * Date: Aug 15, 2026
  *
  * @package xtradbrowusers
- * @version 1.2.9
+ * @version 1.2.9.1
  * @author webitproff
  * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff
  * @license BSD
