@@ -1,6 +1,6 @@
 # Extrafields Users Custom — плагин дополнительных полей для модуля Users
 
-[![Version](https://img.shields.io/badge/version-1.2.9-green.svg)](https://github.com/webitproff/xtradbrowusers-cotonti/releases)
+[![Version](https://img.shields.io/badge/version-1.2.9.1-green.svg)](https://github.com/webitproff/xtradbrowusers-cotonti/releases)
 [![Cotonti](https://img.shields.io/badge/Cotonti-v1.0+-orange.svg)](https://github.com/Cotonti/Cotonti)
 [![PHP](https://img.shields.io/badge/PHP-8.5+-purple.svg)](https://www.php.net/releases/8_4_0.php)
 [![MySQL](https://img.shields.io/badge/MySQL-8.4+-blue.svg)](https://www.mysql.com/)
