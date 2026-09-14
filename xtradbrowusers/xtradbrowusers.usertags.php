@@ -36,10 +36,10 @@ Hooks=usertags.main
  * Support:             https://abuyfile.com/ru/forums/cotonti/original/extrafields
  * API Extrafields:     https://github.com/Cotonti/Cotonti/blob/master/system/extrafields.php
  *
- * Date: Aug 15, 2026
+ * Date: Sep 14, 2026
  *
  * @package xtradbrowusers
- * @version 1.2.9.1
+ * @version 1.2.9.2
  * @author webitproff
  * @copyright Copyright (c) webitproff 2026 | https://github.com/webitproff
  * @license BSD
@@ -61,7 +61,7 @@ if (!empty($extrafields) && !empty($user_data['user_id'])) {
 
         foreach ($extrafields as $exfld) {
             $tag = strtoupper($exfld['field_name']);
-            $value = $xtra_data[$exfld['field_name']] ?? null;
+            $value = $xtra_data[$exfld['field_name']] ?? '';
 
             // Подмена значения на перевод, если мультиязычность включена и тип поля не
             // поддерживает собственную языковую локализацию
@@ -74,16 +74,21 @@ if (!empty($extrafields) && !empty($user_data['user_id'])) {
             $temp_array['XTRA_' . $tag] = cot_build_extrafields_data('xtra', $exfld, $displayValue);
             $temp_array['XTRA_' . $tag . '_TITLE'] = cot_extrafield_title($exfld, 'xtra_');
             $temp_array['XTRA_' . $tag . '_VALUE'] = $displayValue;
-
-            // Название страны, если поле — country (используем оригинальный код страны)
-            if ($exfld['field_type'] === 'country') {
-                $country_lang = cot_langfile('countries', 'core');
-                if (file_exists($country_lang)) {
-                    include $country_lang;
-                }
-                // $value содержит код страны (ua, us), а не переведённое название
-                $temp_array['XTRA_' . $tag . '_NAME'] = isset($cot_countries[$value]) ? $cot_countries[$value] : $value;
-            }
+ 
+			// Название страны, если поле — country (используем оригинальный код страны)
+			if ($exfld['field_type'] === 'country') {
+				$country_lang = cot_langfile('countries', 'core');
+				if (file_exists($country_lang)) {
+					include $country_lang;
+				}
+				// $value содержит код страны (ua, us), а не переведённое название.
+				// Приводим к строке: null → '', иначе PHP 8.1+ выдаёт Deprecated
+				// при обращении к $cot_countries[null].
+				$countryCode = (string) $value;
+				$temp_array['XTRA_' . $tag . '_NAME'] = ($countryCode !== '' && isset($cot_countries[$countryCode]))
+					? $cot_countries[$countryCode]
+					: $countryCode;
+			}
         }
     } else {
         foreach ($extrafields as $exfld) {
