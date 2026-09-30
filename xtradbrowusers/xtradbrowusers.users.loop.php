@@ -43,7 +43,7 @@ Hooks=users.loop
  * Support:             https://abuyfile.com/ru/forums/cotonti/original/extrafields
  * API Extrafields:     https://github.com/Cotonti/Cotonti/blob/master/system/extrafields.php
  *
- * Date: Aug 15, 2026
+ * Date: Sep 30, 2026
  *
  * @package xtradbrowusers
  * @version 1.2.9.1
@@ -65,7 +65,7 @@ if (!empty($extrafields) && !empty($urr['user_id'])) {
 
         foreach ($extrafields as $exfld) {
             $tag = strtoupper($exfld['field_name']);
-            $value = $xtra_data[$exfld['field_name']] ?? null;
+            $value = $xtra_data[$exfld['field_name']] ?? '';
 
             // Подмена значения на перевод, если мультиязычность включена и тип поля не
             // поддерживает собственную языковую локализацию
@@ -73,6 +73,9 @@ if (!empty($extrafields) && !empty($urr['user_id'])) {
             if (!empty(Cot::$cfg['plugin']['xtradbrowusers']['xtradbrowusers_i18n_use'])
                 && !in_array($exfld['field_type'], $builtInI18nTypes)) {
                 $displayValue = xtradbrowusers_i18n_get_value($urr['user_id'], $exfld['field_name'], $value);
+                if ($displayValue === null) {
+                    $displayValue = '';
+                }
             }
 
             // Индивидуальные теги для каждого поля
@@ -98,8 +101,13 @@ if (!empty($extrafields) && !empty($urr['user_id'])) {
                 if (file_exists($country_lang)) {
                     include $country_lang;
                 }
+                
                 // $value содержит код страны (ua, us), а не переведённое название
-                $t->assign('USERS_ROW_XTRA_' . $tag . '_NAME', isset($cot_countries[$value]) ? $cot_countries[$value] : $value);
+                $countryCode = (is_string($value) || is_int($value)) ? (string) $value : '';
+                $t->assign(
+                    'USERS_ROW_XTRA_' . $tag . '_NAME',
+                    ($countryCode !== '' && isset($cot_countries[$countryCode])) ? $cot_countries[$countryCode] : $countryCode
+                );
             }
         }
     } else {
